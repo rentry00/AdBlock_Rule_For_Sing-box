@@ -44,7 +44,7 @@ $urlList = @(
 )
 
 # 日志文件路径
-$logFilePath = "$PSScriptRoot/adblock_log.txt"
+$logFilePath = "$PSScriptRoot/adblock_log2.txt"
 
 # 创建两个HashSet来存储唯一的规则和排除的域名
 $uniqueRules = [System.Collections.Generic.HashSet[string]]::new()
@@ -188,7 +188,7 @@ $($formattedRules -join "`n")
 "@
 
 # 定义输出文件路径
-$outputPath = "$PSScriptRoot/adblock_reject_domain.txt"
+$outputPath = "$PSScriptRoot/adblock_reject_domain2.txt"
 $textContent | Out-File -FilePath $outputPath -Encoding utf8
 
 # 输出生成的有效规则总数
