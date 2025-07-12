@@ -43,7 +43,7 @@ $urlList = @(
 )
 
 # 日志文件路径
-$logFilePath = "$PSScriptRoot/adblock_log3.txt"
+$logFilePath = "$PSScriptRoot/adblock_log.txt"
 
 # 创建两个HashSet来存储唯一的规则和排除的域名
 $uniqueRules = [System.Collections.Generic.HashSet[string]]::new()
