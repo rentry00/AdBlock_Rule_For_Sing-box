@@ -34,7 +34,7 @@ jobs:
 
     - name: Force Add and Commit JSON file  # 强制添加并提交 adblock_reject.json 文件
       run: |
-        git track "adblock_reject.json"
+        git lfs track "adblock_reject.json"
         git add .gitattributes
         git config --global user.name 'github-actions'  # 配置提交用户名
         git config --global user.email 'github-actions@github.com'  # 配置提交邮箱
