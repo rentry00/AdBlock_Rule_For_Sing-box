@@ -8,9 +8,7 @@
 # 定义广告过滤器URL列表
 $urlList = @(
 "https://github.com/arcestia/blocklists/raw/refs/heads/main/released/adblock.00.txt",  
-"https://github.com/arcestia/blocklists/raw/refs/heads/main/released/adblock.01.txt",
-"https://raw.githubusercontent.com/elliottophellia/adlist/refs/heads/main/hosts",
-"https://raw.githubusercontent.com/sjhgvr/oisd/main/abp_nsfw.txt"
+"https://github.com/arcestia/blocklists/raw/refs/heads/main/released/adblock.01.txt"
 
 
 )
