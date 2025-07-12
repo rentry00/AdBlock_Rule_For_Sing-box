@@ -10,11 +10,8 @@ $urlList = @(
 "https://github.com/arcestia/blocklists/raw/refs/heads/main/released/adblock.00.txt",  
 "https://github.com/arcestia/blocklists/raw/refs/heads/main/released/adblock.01.txt",
 "https://raw.githubusercontent.com/elliottophellia/adlist/refs/heads/main/hosts",
-"https://raw.githubusercontent.com/sjhgvr/oisd/main/abp_nsfw.txt",
-"https://raw.githubusercontent.com/MoisesJMorais/AdGuard-DNS-Filters/refs/heads/main/porn-filter.txt",
-"https://raw.githubusercontent.com/MoisesJMorais/AdGuard-DNS-Filters/refs/heads/main/fraud-filter.txt",
-"https://raw.githubusercontent.com/MoisesJMorais/AdGuard-DNS-Filters/refs/heads/main/abuse-filter.txt",
-"https://raw.githubusercontent.com/MoisesJMorais/AdGuard-DNS-Filters/refs/heads/main/malware-filter.txt"
+"https://raw.githubusercontent.com/sjhgvr/oisd/main/abp_nsfw.txt"
+
 
 )
 
