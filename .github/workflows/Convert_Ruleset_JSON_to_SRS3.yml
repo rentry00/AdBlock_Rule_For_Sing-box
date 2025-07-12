@@ -122,10 +122,10 @@ jobs:
             }
           }
           
-          git add adblock_reject.srs sing-box.exe .sing-box_downloaded
+          git add adblock_reject3.srs sing-box.exe .sing-box_downloaded
           
           if (git status --porcelain) {
-            git commit -m "Update adblock_reject2.srs and add sing-box.exe"
+            git commit -m "Update adblock_reject3.srs and add sing-box.exe"
             
             for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
               try {
