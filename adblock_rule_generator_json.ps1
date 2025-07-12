@@ -9,8 +9,7 @@
 $urlList = @(
 "https://github.com/arcestia/blocklists/raw/refs/heads/main/released/adblock.00.txt",  
 "https://github.com/arcestia/blocklists/raw/refs/heads/main/released/adblock.01.txt",
-"https://github.com/ppfeufer/adguard-filter-list/raw/refs/heads/master/blocklist",
-"https://raw.githubusercontent.com/8680/GOODBYEADS/refs/heads/master/data/rules/adblock.txt"
+"https://github.com/ppfeufer/adguard-filter-list/raw/refs/heads/master/blocklist"
 
 
 )
