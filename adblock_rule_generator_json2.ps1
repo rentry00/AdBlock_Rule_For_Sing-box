@@ -78,44 +78,6 @@ foreach ($url in $urlList) {
             # 直接处理以 @@ 开头的规则，提取域名并加入白名单
             if ($line.StartsWith('@@')) {
                 $domains = $line -replace '^@@', '' -split '[^\w.-]+'
-# 日志文件路径
-$logFilePath = "$PSScriptRoot/adblock_log.txt"
-
-# 创建两个HashSet来存储唯一的规则和排除的域名
-$uniqueRules = [System.Collections.Generic.HashSet[string]]::new()
-$excludedDomains = [System.Collections.Generic.HashSet[string]]::new()
-
-# 创建WebClient对象用于下载规则
-$webClient = New-Object System.Net.WebClient
-$webClient.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
-
-# DNS规范验证函数
-function Is-ValidDNSDomain($domain) {
-    if ($domain.Length -gt 253) { return $false }
-    $labels = $domain -split "\."
-    foreach ($label in $labels) {
-        if ($label.Length -eq 0 -or $label.Length -gt 63) { return $false }
-        if ($label -notmatch "^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$") {
-            return $false
-        }
-    }
-    $tld = $labels[-1]
-    if ($tld -notmatch "^[a-zA-Z]{2,}$") { return $false }
-    return $true
-}
-
-foreach ($url in $urlList) {
-    Write-Host "正在处理: $url"
-    Add-Content -Path $logFilePath -Value "正在处理: $url"
-    try {
-        # 读取并拆分内容为行
-        $content = $webClient.DownloadString($url)
-        $lines = $content -split "`n"
-
-        foreach ($line in $lines) {
-            # 直接处理以 @@ 开头的规则，提取域名并加入白名单
-            if ($line.StartsWith('@@')) {
-                $domains = $line -replace '^@@', '' -split '[^\w.-]+'
                 foreach ($domain in $domains) {
                     if (-not [string]::IsNullOrWhiteSpace($domain) -and $domain -match '[\w-]+(\.[[\w-]+)+') {
                         $excludedDomains.Add($domain.Trim()) | Out-Null
