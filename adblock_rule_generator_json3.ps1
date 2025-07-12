@@ -42,7 +42,14 @@ $urlList = @(
 "https://raw.githubusercontent.com/MoisesJMorais/AdGuard-DNS-Filters/refs/heads/main/porn-filter.txt",
 "https://raw.githubusercontent.com/MoisesJMorais/AdGuard-DNS-Filters/refs/heads/main/fraud-filter.txt",
 "https://raw.githubusercontent.com/MoisesJMorais/AdGuard-DNS-Filters/refs/heads/main/abuse-filter.txt",
-"https://raw.githubusercontent.com/MoisesJMorais/AdGuard-DNS-Filters/refs/heads/main/malware-filter.txt"
+"https://raw.githubusercontent.com/MoisesJMorais/AdGuard-DNS-Filters/refs/heads/main/malware-filter.txt",
+"https://raw.githubusercontent.com/spydisec/spydithreatintel/refs/heads/main/domainlist/spam/spamscamabuse_domains.txt",
+"https://raw.githubusercontent.com/spydisec/spydithreatintel/refs/heads/main/domainlist/malicious/domain_ioc_maltrail_new.txt",
+"https://raw.githubusercontent.com/spydisec/spydithreatintel/refs/heads/main/domainlist/ads/advtracking_domains.txt",
+"https://raw.githubusercontent.com/miriquidi/domain-blocklists/refs/heads/main/block.txt",
+"https://raw.githubusercontent.com/sol1/blocklist-domains/refs/heads/main/outputs/hosts.txt",
+"https://raw.githubusercontent.com/person9876/blocklist/refs/heads/main/domainlist.txt",
+"https://raw.githubusercontent.com/dmachard/blocklist-domains/data/hosts.txt"
 
 )
 
