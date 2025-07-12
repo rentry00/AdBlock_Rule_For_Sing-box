@@ -78,6 +78,44 @@ foreach ($url in $urlList) {
             # 直接处理以 @@ 开头的规则，提取域名并加入白名单
             if ($line.StartsWith('@@')) {
                 $domains = $line -replace '^@@', '' -split '[^\w.-]+'
+# 日志文件路径
+$logFilePath = "$PSScriptRoot/adblock_log.txt"
+
+# 创建两个HashSet来存储唯一的规则和排除的域名
+$uniqueRules = [System.Collections.Generic.HashSet[string]]::new()
+$excludedDomains = [System.Collections.Generic.HashSet[string]]::new()
+
+# 创建WebClient对象用于下载规则
+$webClient = New-Object System.Net.WebClient
+$webClient.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+
+# DNS规范验证函数
+function Is-ValidDNSDomain($domain) {
+    if ($domain.Length -gt 253) { return $false }
+    $labels = $domain -split "\."
+    foreach ($label in $labels) {
+        if ($label.Length -eq 0 -or $label.Length -gt 63) { return $false }
+        if ($label -notmatch "^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$") {
+            return $false
+        }
+    }
+    $tld = $labels[-1]
+    if ($tld -notmatch "^[a-zA-Z]{2,}$") { return $false }
+    return $true
+}
+
+foreach ($url in $urlList) {
+    Write-Host "正在处理: $url"
+    Add-Content -Path $logFilePath -Value "正在处理: $url"
+    try {
+        # 读取并拆分内容为行
+        $content = $webClient.DownloadString($url)
+        $lines = $content -split "`n"
+
+        foreach ($line in $lines) {
+            # 直接处理以 @@ 开头的规则，提取域名并加入白名单
+            if ($line.StartsWith('@@')) {
+                $domains = $line -replace '^@@', '' -split '[^\w.-]+'
                 foreach ($domain in $domains) {
                     if (-not [string]::IsNullOrWhiteSpace($domain) -and $domain -match '[\w-]+(\.[[\w-]+)+') {
                         $excludedDomains.Add($domain.Trim()) | Out-Null
@@ -148,46 +186,31 @@ foreach ($domain in $excludedDomains) {
 # 排除所有白名单规则中的域名
 $finalRules = $validRules | Where-Object { -not $validExcludedDomains.Contains($_) }
 
-# 对规则进行排序并添加前缀和后缀
-$formattedRules = $finalRules | Sort-Object | ForEach-Object {
-    $quote = "`""
-    "$quote" + "$_$quote,"
-}
-
-
-# 移除最后一条规则的逗号
-if ($formattedRules.Count -gt 0) {
-    $formattedRules[-1] = $formattedRules[-1].TrimEnd(',')
-}
-
-
 # 统计生成的规则条目数量
 $ruleCount = $finalRules.Count
 
+# 将域名按字母顺序排序
+$sortedDomains = $finalRules | Sort-Object
 
+# 将规则格式化为JSON格式
+$jsonContent = @{
+    version = 1  # 设置 version 为 1
+    rules = @(
+        @{
+            domain= $sortedDomains
+        }
+    )
+}
 
-
-# 获取当前时间并转换为东八区时间
-$generationTime = (Get-Date).ToUniversalTime().AddHours(8).ToString("yyyy-MM-dd HH:mm:ss")
-
-# 创建文本格式的字符串
-$textContent = @"
-# Title: AdBlock_Rule_For_Sing-box
-# Description: 适用于Sing-box的域名拦截列表，每20分钟更新一次，确保即时同步上游减少误杀
-# Homepage: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box
-# LICENSE1: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-GPL 3.0
-# LICENSE2: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-CC-BY-NC-SA 4.0
-# Generated on: $generationTime
-# Generated AdBlock rules
-# Total entries: $ruleCount
-
-$($formattedRules -join "`n")
-"@
+# 转换为带紧凑缩进的JSON格式
+$jsonFormatted = $jsonContent | ConvertTo-Json -Depth 10 | ForEach-Object { $_.Trim() }
 
 # 定义输出文件路径
 $outputPath = "$PSScriptRoot/adblock_reject2.json"
-$textContent | Out-File -FilePath $outputPath -Encoding utf8
+$jsonFormatted | Out-File -FilePath $outputPath -Encoding utf8
 
 # 输出生成的有效规则总数
 Write-Host "生成的有效规则总数: $ruleCount"
 Add-Content -Path $logFilePath -Value "Total entries: $ruleCount"
+
+Pause
