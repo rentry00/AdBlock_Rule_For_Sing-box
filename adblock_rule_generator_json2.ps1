@@ -34,13 +34,7 @@ $urlList = @(
 "https://raw.githubusercontent.com/musdx/blist/refs/heads/master/blocklist.txt",
 "https://raw.githubusercontent.com/jpgpi250/piholemanual/refs/heads/master/DOH/DOHadb.txt",
 "https://raw.githubusercontent.com/Bastiaantjuhh/hostfile-merge/refs/heads/main/hostfiles/blacklist.txt",
-"https://raw.githubusercontent.com/spydisec/spydithreatintel/refs/heads/main/domainlist/spam/spamscamabuse_domains.txt",
-"https://raw.githubusercontent.com/spydisec/spydithreatintel/refs/heads/main/domainlist/malicious/domain_ioc_maltrail_new.txt",
-"https://raw.githubusercontent.com/spydisec/spydithreatintel/refs/heads/main/domainlist/ads/advtracking_domains.txt",
-"https://raw.githubusercontent.com/miriquidi/domain-blocklists/refs/heads/main/block.txt",
-"https://raw.githubusercontent.com/sol1/blocklist-domains/refs/heads/main/outputs/hosts.txt",
-"https://raw.githubusercontent.com/person9876/blocklist/refs/heads/main/domainlist.txt",
-"https://raw.githubusercontent.com/dmachard/blocklist-domains/data/hosts.txt"
+
 )
 
 # 日志文件路径
