@@ -38,6 +38,7 @@ jobs:
       # 步骤3：转换规则集（依赖于 sing-box.exe）
     - name: Convert ruleset
       run: |
+       chmod u+x ./sing-box
        ./sing-box rule-set compile --output adblock_reject2.srs adblock_reject2.json  # 正确的转换文件名
                 
 
