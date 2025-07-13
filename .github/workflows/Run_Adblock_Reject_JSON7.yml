@@ -1,4 +1,4 @@
-name: Run_Adblock_Reject_JSON8  # 工作流名称
+name: Run_Adblock_Reject_JSON7  # 工作流名称
 
 on:
   schedule:
