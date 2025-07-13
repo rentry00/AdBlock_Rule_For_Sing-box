@@ -24,7 +24,7 @@ jobs:
         sudo apt-get install -y wget apt-transport-https software-properties-common  # 安装必要的包
         wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb  # 下载微软的包配置文件
         sudo dpkg -i packages-microsoft-prod.deb  # 安装包配置文件
-        wget -q https://github.com/SagerNet/sing-box/releases/download/v1.11.15/sing-box_1.11.15_linux_arm64.deb  # 下载微软的包配置文件
+        wget -q https://github.com/SagerNet/sing-box/releases/download/v1.11.15/sing-box_1.11.15_linux_amd64.deb  # 下载微软的包配置文件
         sudo dpkg -i sing-box_1.11.15_linux_arm64.deb  # 安装包配置文件
         sudo apt-get update  # 更新包列表
         sudo apt-get install -y powershell  # 安装 PowerShell 7
