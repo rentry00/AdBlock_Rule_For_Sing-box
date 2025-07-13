@@ -24,10 +24,11 @@ jobs:
         sudo apt-get install -y wget apt-transport-https software-properties-common  # 安装必要的包
         wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb  # 下载微软的包配置文件
         sudo dpkg -i packages-microsoft-prod.deb  # 安装包配置文件
-        wget -q https://github.com/SagerNet/sing-box/releases/download/v1.11.15/sing-box_1.11.15_linux_amd64.deb  # 下载微软的包配置文件
-        sudo dpkg -i sing-box_1.11.15_linux_amd64.deb  # 安装包配置文件
+        wget https://github.com/SagerNet/sing-box/releases/download/v1.11.0/sing-box-1.11.0-linux-amd64.tar.gz
+        tar -zxvf sing-box-1.11.0-linux-amd64.tar.gz
         sudo apt-get update  # 更新包列表
         sudo apt-get install -y powershell  # 安装 PowerShell 7
+        sudo apt install bash
         rm packages-microsoft-prod.deb  # 删除包配置文件
 
     - name: Run adblock_rule_generator_json2.ps1   # 运行 adblock_rule_generator_json.ps1 脚本
@@ -36,7 +37,21 @@ jobs:
 
 
       # 步骤3：转换规则集（依赖于 sing-box.exe）
-    - name: Release
-      run: bash .github/release-rule-set.sh
+    - name: convert
+      shell: bash
+      run: sing-box-1.11.15-linux-amd64/sing-box rule-set compile --output adblock_reject2.srs adblock_reject2.json
+      
+    - name: Force Add and Commit JSON file  # 强制添加并提交 adblock_reject.json 文件
+      run: |
+        git config --global user.name 'github-actions'  # 配置提交用户名
+        git config --global user.email 'github-actions@github.com'  # 配置提交邮箱
+        git add -f adblock_reject2.srs  # 强制添加 adblock_reject.json 文件
+        git commit -m 'Update adblock_reject2.srs' || git commit --allow-empty -m 'Empty commit to force push'  # 提交更改，若无更改则提交空更改
+
+    - name: Retry Push JSON file  # 推送 adblock_reject.json 文件，失败时重试
       env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TOKEN: ${{ secrets.TOKEN }}  # 使用 GitHub 密钥进行身份验证
+      run: |
+        for i in {1..5}; do  # 尝试最多5次
+          git push --force origin HEAD && exit 0 || (echo "Push failed, retrying in 10 seconds..." && sleep 10)
+        done
