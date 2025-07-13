@@ -7,9 +7,32 @@
 
 # 定义广告过滤器URL列表
 $urlList = @(
-"https://github.com/arcestia/blocklists/raw/refs/heads/main/released/adblock.00.txt",  
-"https://github.com/arcestia/blocklists/raw/refs/heads/main/released/adblock.01.txt"
-
+"https://raw.githubusercontent.com/bongochong/CombinedPrivacyBlockLists/refs/heads/master/newhosts-final.hosts",
+"https://raw.githubusercontent.com/bongochong/CombinedPrivacyBlockLists/refs/heads/master/newhosts-final-Dual.hosts",
+"https://raw.githubusercontent.com/bongochong/CombinedPrivacyBlockLists/refs/heads/master/cpbl-abp-list.txt",
+"https://raw.githubusercontent.com/bongochong/CombinedPrivacyBlockLists/refs/heads/master/combined-final.cidr",
+"https://raw.githubusercontent.com/jtbrough/pihole-hosts/refs/heads/main/firebog-ticked-hosts",
+"https://raw.githubusercontent.com/musdx/blist/refs/heads/master/blocklist.txt",
+"https://raw.githubusercontent.com/jpgpi250/piholemanual/refs/heads/master/DOH/DOHadb.txt",
+"https://raw.githubusercontent.com/Bastiaantjuhh/hostfile-merge/refs/heads/main/hostfiles/blacklist.txt",
+"https://raw.githubusercontent.com/spydisec/spydithreatintel/refs/heads/main/domainlist/spam/spamscamabuse_domains.txt",
+"https://raw.githubusercontent.com/spydisec/spydithreatintel/refs/heads/main/domainlist/malicious/domain_ioc_maltrail_new.txt",
+"https://raw.githubusercontent.com/spydisec/spydithreatintel/refs/heads/main/domainlist/ads/advtracking_domains.txt",
+"https://raw.githubusercontent.com/miriquidi/domain-blocklists/refs/heads/main/block.txt",
+"https://raw.githubusercontent.com/sol1/blocklist-domains/refs/heads/main/outputs/hosts.txt",
+"https://raw.githubusercontent.com/person9876/blocklist/refs/heads/main/domainlist.txt",
+"https://raw.githubusercontent.com/dmachard/blocklist-domains/data/hosts.txt",
+"https://raw.githubusercontent.com/Zydnar/pihole_malware_blocklist/refs/heads/main/pihole_blocklist.txt",
+"https://raw.githubusercontent.com/open-access-internet/blocklist/refs/heads/main/blocklist.txt",
+"https://raw.githubusercontent.com/iaaaannn0/blocklistru/refs/heads/main/full.list",
+"https://raw.githubusercontent.com/chrisjbawden/newly-registered-domains-tracker/refs/heads/main/nrd-60.txt",
+"https://raw.githubusercontent.com/lolo6oT/antifilter/refs/heads/main/domains.all",
+"https://raw.githubusercontent.com/Pyenb/Pi-hole-blocklist/refs/heads/main/blocklist.txt",
+"https://raw.githubusercontent.com/musdx/blist/refs/heads/master/blocklist.txt",
+"https://raw.githubusercontent.com/btogxx/domains-rule/refs/heads/main/cache/blockhosts.txt",
+"https://raw.githubusercontent.com/KEINOS/BlockList/refs/heads/main/hosts_all-in-one.txt",
+"https://raw.githubusercontent.com/cabrata/blacklist-hosts/refs/heads/main/hosts/unified/stevenblack-hosts.txt",
+"https://raw.githubusercontent.com/cabrata/blacklist-hosts/refs/heads/main/hosts/porn/stevenblack-hosts.txt"
 
 )
 
