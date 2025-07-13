@@ -141,5 +141,11 @@ $jsonContent = @{
 $jsonFormatted = $jsonContent | ConvertTo-Json -Depth 10 | ForEach-Object { $_.Trim() }
 
 # 定义输出文件路径
-$outputPath = "$PSScriptRoot/adblock_reject.json"
-$jsonF
+$outputPath = "$PSScriptRoot/adblock_reject4.json"
+$jsonFormatted | Out-File -FilePath $outputPath -Encoding utf8
+
+# 输出生成的有效规则总数
+Write-Host "生成的有效规则总数: $ruleCount"
+Add-Content -Path $logFilePath -Value "Total entries: $ruleCount"
+
+Pause
