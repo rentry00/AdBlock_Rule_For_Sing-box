@@ -1,4 +1,4 @@
-name: Run_Adblock_Reject_JSON4  # 工作流名称
+name: Run_Adblock_Reject_JSON5  # 工作流名称
 
 permissions:
   contents: write
@@ -34,8 +34,8 @@ jobs:
         sudo apt install bash
         rm packages-microsoft-prod.deb  # 删除包配置文件
 
-    - name: Run adblock_rule_generator_json4.ps1   # 运行 adblock_rule_generator_json.ps1 脚本
-      run: pwsh -File ./adblock_rule_generator_json4.ps1  # 使用 PowerShell 7 运行脚本
+    - name: Run adblock_rule_generator_json5.ps1   # 运行 adblock_rule_generator_json.ps1 脚本
+      run: pwsh -File ./adblock_rule_generator_json5.ps1  # 使用 PowerShell 7 运行脚本
 
 
 
