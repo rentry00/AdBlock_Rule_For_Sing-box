@@ -6,7 +6,7 @@ set -e -o pipefail
 
 
 wget https://github.com/SagerNet/sing-box/releases/download/v1.11.15/sing-box-1.11.15-linux-amd64.tar.gz
-tar -zxvf sing-box-1.11.15-linux-amd64
+tar -zxvf sing-box-1.11.15-linux-amd64.tar.gz
 
 sing-box-1.11.15-linux-amd64/sing-box rule-set compile --output adblock_reject2.srs adblock_reject2.json
 
