@@ -39,7 +39,7 @@ jobs:
       # 步骤3：转换规则集（依赖于 sing-box.exe）
     - name: convert
       shell: bash
-      run: sing-box-1.11.15-linux-amd64/sing-box rule-set compile --output adblock_reject2.srs adblock_reject2.json
+      run: sing-box-1.11.15-linux-amd64/sing-box rule-set compile --output adblock_reject3.srs adblock_reject3.json
       
     - name: Force Add and Commit JSON file  # 强制添加并提交 adblock_reject.json 文件
       run: |
