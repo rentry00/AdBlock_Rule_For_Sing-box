@@ -13,6 +13,7 @@ sing-box-1.11.15-linux-amd64/sing-box rule-set compile --output adblock_reject2.
 git init
 git config --local user.email "github-action@users.noreply.github.com"
 git config --local user.name "GitHub Action"
+git remote rm origin
 git remote add origin https://github-action:$GITHUB_TOKEN@github.com/rentry00/AdBlock_Rule_For_Sing-box.git
 git branch -M main
 git add -f adblock_reject2.srs  # 强制添加 adblock_reject.json 文件
