@@ -24,6 +24,8 @@ jobs:
         sudo apt-get install -y wget apt-transport-https software-properties-common  # 安装必要的包
         wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb  # 下载微软的包配置文件
         sudo dpkg -i packages-microsoft-prod.deb  # 安装包配置文件
+        wget -q https://github.com/SagerNet/sing-box/releases/download/v1.11.15/sing-box_1.11.15_linux_arm64.deb  # 下载微软的包配置文件
+        sudo dpkg -i sing-box_1.11.15_linux_arm64.deb  # 安装包配置文件
         sudo apt-get update  # 更新包列表
         sudo apt-get install -y powershell  # 安装 PowerShell 7
         rm packages-microsoft-prod.deb  # 删除包配置文件
@@ -31,12 +33,94 @@ jobs:
     - name: Run adblock_rule_generator_json2.ps1   # 运行 adblock_rule_generator_json.ps1 脚本
       run: pwsh -File ./adblock_rule_generator_json2.ps1  # 使用 PowerShell 7 运行脚本
 
+# 步骤2：检查并下载 sing-box（仅在第一次运行时）
+    - name: Check and download sing-box v1.9.4 if needed
+      shell: powershell
+      run: |
+        $exePath = "./sing-box"
+        $downloadMarker = "./.sing-box_downloaded"
+          
+        if (-not (Test-Path $exePath) -or -not (Test-Path $downloadMarker)) {
+          Write-Host "sing-box.exe or .sing-box_downloaded not found, downloading..."
+          $url = "https://github.com/SagerNet/sing-box/releases/download/v1.11.15/sing-box-1.11.15-linux-arm64.tar.gz"
+          $zipFile = "sing-box-1.11.15-linux-arm64.tar.gz"
+          $maxAttempts = 5
+            
+          for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
+            try {
+              Write-Host "Downloading sing-box v1.9.4 (Attempt $attempt)..."
+              Invoke-WebRequest -Uri $url -OutFile $zipFile -TimeoutSec 300
+                
+              Expand-Archive -Path $zipFile -DestinationPath . -Force
+              Remove-Item -Path $zipFile
+              $exeFile = Get-ChildItem -Recurse -Filter "*sing-box*.exe" | Select-Object -First 1
+              if ($exeFile) {
+                Rename-Item -Path $exeFile.FullName -NewName $exePath -Force
+                New-Item -Path . -Name ".sing-box_downloaded" -ItemType "file" -Force
+                Write-Host "Extraction and renaming complete!"
+                 break
+              } else {
+                throw "Executable file not found in the extracted contents"
+              }
+            } catch {
+              Write-Host "Download, extraction, or renaming failed. Error: $_"
+              if ($attempt -eq $maxAttempts) {
+                Write-Host "Max attempts reached. Process failed."
+                exit 1
+              }
+              Start-Sleep -Seconds 10
+            }
+          }
+        } else {
+          Write-Host "sing-box.exe and .sing-box_downloaded already exist."
+        }
+
+      # 步骤3：转换规则集（依赖于 sing-box.exe）
+    - name: Convert ruleset
+      shell: powershell
+      run: |
+          $exePath = "./sing-box"
+          
+          if (Test-Path $exePath) {
+            Write-Host "Sing-box version:"
+            & $exePath -v
+            Write-Host "Sing-box help:"
+            & $exePath convert-ruleset --help
+
+            $maxAttempts = 5
+            
+            for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
+              try {
+                Write-Host "Attempting conversion (Attempt $attempt)..."
+                & $exePath rule-set compile --output adblock_reject2.srs adblock_reject2.json  # 正确的转换文件名
+                if ($LASTEXITCODE -eq 0) {
+                  Write-Host "Conversion successful!"
+                  break
+                } else {
+                  throw "Conversion failed with exit code $LASTEXITCODE"
+                }
+              } catch {
+                Write-Host "Attempt $attempt failed. Error: $_"
+                if ($attempt -eq $maxAttempts) {
+                  Write-Host "Max attempts reached. Exiting."
+                  exit 1
+                }
+                Start-Sleep -Seconds 5
+              }
+            }
+          } else {
+            Write-Host "sing-box.exe not found, skipping conversion step."
+            exit 1
+          }
+
+
+
     - name: Force Add and Commit JSON file  # 强制添加并提交 adblock_reject.json 文件
       run: |
         git config --global user.name 'github-actions'  # 配置提交用户名
         git config --global user.email 'github-actions@github.com'  # 配置提交邮箱
-        git add -f adblock_reject2.json  # 强制添加 adblock_reject.json 文件
-        git commit -m 'Update adblock_reject2.json' || git commit --allow-empty -m 'Empty commit to force push'  # 提交更改，若无更改则提交空更改
+        git add -f adblock_reject2.srs  # 强制添加 adblock_reject.json 文件
+        git commit -m 'Update adblock_reject2.srs' || git commit --allow-empty -m 'Empty commit to force push'  # 提交更改，若无更改则提交空更改
 
     - name: Retry Push JSON file  # 推送 adblock_reject.json 文件，失败时重试
       env:
