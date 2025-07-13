@@ -37,42 +37,9 @@ jobs:
 
       # 步骤3：转换规则集（依赖于 sing-box.exe）
     - name: Convert ruleset
-      shell: powershell
       run: |
-          $exePath = "./sing-box"
-          
-          if (Test-Path $exePath) {
-            Write-Host "Sing-box version:"
-            & $exePath -v
-            Write-Host "Sing-box help:"
-            & $exePath convert-ruleset --help
-
-            $maxAttempts = 5
-            
-            for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
-              try {
-                Write-Host "Attempting conversion (Attempt $attempt)..."
-                & $exePath rule-set compile --output adblock_reject2.srs adblock_reject2.json  # 正确的转换文件名
-                if ($LASTEXITCODE -eq 0) {
-                  Write-Host "Conversion successful!"
-                  break
-                } else {
-                  throw "Conversion failed with exit code $LASTEXITCODE"
-                }
-              } catch {
-                Write-Host "Attempt $attempt failed. Error: $_"
-                if ($attempt -eq $maxAttempts) {
-                  Write-Host "Max attempts reached. Exiting."
-                  exit 1
-                }
-                Start-Sleep -Seconds 5
-              }
-            }
-          } else {
-            Write-Host "sing-box.exe not found, skipping conversion step."
-            exit 1
-          }
-
+       ./sing-box rule-set compile --output adblock_reject2.srs adblock_reject2.json  # 正确的转换文件名
+                
 
 
     - name: Force Add and Commit JSON file  # 强制添加并提交 adblock_reject.json 文件
