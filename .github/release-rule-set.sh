@@ -10,8 +10,6 @@ tar -zxvf sing-box-1.11.15-linux-amd64.tar.gz
 
 sing-box-1.11.15-linux-amd64/sing-box rule-set compile --output adblock_reject2.srs adblock_reject2.json
 
-
-cd output
 git init
 git config --global user.name 'github-actions'  # 配置提交用户名
 git config --global user.email 'github-actions@github.com'  # 配置提交邮箱
