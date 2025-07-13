@@ -38,19 +38,5 @@ jobs:
       # 步骤3：转换规则集（依赖于 sing-box.exe）
     - name: Release
       run: bash .github/release-rule-set.sh
-                
-
-    - name: Force Add and Commit JSON file  # 强制添加并提交 adblock_reject.json 文件
-      run: |
-        git config --global user.name 'github-actions'  # 配置提交用户名
-        git config --global user.email 'github-actions@github.com'  # 配置提交邮箱
-        git add -f adblock_reject2.srs  # 强制添加 adblock_reject.json 文件
-        git commit -m 'Update adblock_reject2.srs' || git commit --allow-empty -m 'Empty commit to force push'  # 提交更改，若无更改则提交空更改
-
-    - name: Retry Push JSON file  # 推送 adblock_reject.json 文件，失败时重试
       env:
-        TOKEN: ${{ secrets.TOKEN }}  # 使用 GitHub 密钥进行身份验证
-      run: |
-        for i in {1..5}; do  # 尝试最多5次
-          git push --force origin HEAD && exit 0 || (echo "Push failed, retrying in 10 seconds..." && sleep 10)
-        done
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
