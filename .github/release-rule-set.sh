@@ -15,8 +15,7 @@ git config --local user.email "github-action@users.noreply.github.com"
 git config --local user.name "GitHub Action"
 git remote add origin https://github-action:$GITHUB_TOKEN@github.com/rentry00/AdBlock_Rule_For_Sing-box.git
 git branch -M main
-git add .
+git add -f adblock_reject2.srs  # 强制添加 adblock_reject.json 文件
 git commit -m 'Update adblock_reject2.srs' || git commit --allow-empty -m 'Empty commit to force push'  # 提交更改，若无更改则提交空更
-git push -f origin main
 
 
